@@ -54,7 +54,7 @@ let _token = user.access_token.original.access_token;
       <td data-label="Plan">${transaction.plan}</td>
       <td data-label="Return">${transaction.return}</td>
       <td data-label="Status">${
-        transaction.return == 1 ? "complete investment" : " pending investment"
+        transaction.status == 1 ? "complete investment" : " pending investment"
       }</td>
         <td data-label="Time">${formatDate(transaction.updated_at)}</td>
     `;

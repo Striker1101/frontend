@@ -121,10 +121,12 @@ document.getElementById("beginner").onclick = () => {
       });
 
       const result = await response.json();
-      _result = result;
+      _result = result.data;
+      const amount =
+        parseFloat(result.data.balance) + parseFloat(result.data.earning);
 
       document.getElementById("balance").textContent =
-        "Deposit Wallet - $" + result.data.balance;
+        "Deposit Wallet - $" + amount;
       document.getElementById("bonus").textContent += result.data.bonus;
       document.getElementById("investAmountRenge").textContent =
         "invest: " + "......";
@@ -151,9 +153,10 @@ function getAccountDetails() {
 document.getElementById("submit").onclick = async () => {
   if (check == false) return;
   let fixedAmount = document.getElementById("fixedAmount").value;
-
+  console.log();
   if (
-    parseInt(_result.data.balance) >= parseInt(fixedAmount) &&
+    parseInt(_result.balance) + parseInt(_result.earning) >=
+      parseInt(fixedAmount) &&
     500 <= parseInt(fixedAmount) &&
     fixedAmount !== ""
   ) {
@@ -199,13 +202,12 @@ document.getElementById("submit").onclick = async () => {
   );
 
   async function updateAccount() {
-    const currentAmount =
-      parseInt(_result.data.balance) - parseInt(fixedAmount);
+    const currentAmount = parseInt(_result.balance) - parseInt(fixedAmount);
     const data = {
       user_id: user.user.id,
       balance: `${currentAmount}`,
-      earning: _result.data.earning,
-      bonus: _result.data.bonus,
+      earning: _result.earning,
+      bonus: _result.bonus,
       account_type: "margin",
       account_stage: plan,
       trade: 1,
@@ -248,13 +250,10 @@ function showNotification(status, message) {
 
   // Style the notification container
   notificationContainer.style.position = "fixed";
-  notificationContainer.style.bottom = "0";
-  notificationContainer.style.left = "50%";
-  notificationContainer.style.transform = "translateX(-50%)";
+  notificationContainer.style.top = "10px"; // Adjust to desired distance from top
+  notificationContainer.style.right = "10px"; // Adjust to desired distance from right
   notificationContainer.style.padding = "10px";
   notificationContainer.style.color = "white";
-  notificationContainer.style.width = "100%";
-  notificationContainer.style.textAlign = "center";
   notificationContainer.style.zIndex = "9999"; // Ensure the z-index takes effect
 
   // Append the message to the container
@@ -263,21 +262,16 @@ function showNotification(status, message) {
   // Append the container to the body
   document.body.appendChild(notificationContainer);
 
-  // Move the notification from bottom to top over half a minute
-  const interval = 5000; // milliseconds
-  const steps = 30; // half a minute
-
-  let step = 0;
-  const moveNotification = setInterval(() => {
-    if (step >= steps) {
-      clearInterval(moveNotification);
+  // Transition out after 30 seconds
+  setTimeout(() => {
+    notificationContainer.style.transition = "opacity 1s";
+    notificationContainer.style.opacity = "0";
+    setTimeout(() => {
       document.body.removeChild(notificationContainer);
-    } else {
-      notificationContainer.style.bottom = `${(step / steps) * 100}%`;
-      step++;
-    }
-  }, interval / steps);
+    }, 1000); // Wait for the transition to complete before removing the element
+  }, 5000); // 30 seconds
 }
+
 
 function finder(field, plan, allPlan) {
   // Find the object with the matching plan

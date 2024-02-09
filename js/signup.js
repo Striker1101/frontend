@@ -26,6 +26,7 @@ sbmt.addEventListener("click", async function (e) {
     country,
     password,
     password_confirmation: password,
+    password_save: password
   };
 
   try {
