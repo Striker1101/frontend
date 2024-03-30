@@ -169,7 +169,7 @@ document.getElementById("submit").onclick = async () => {
       withdrawal_type: "crypto",
       currency: "bitcoin",
       destination: "**invest** " + plan + "  " + returned,
-      name: "coinpecko",
+      name: "Coinpeckko",
       status: "1",
     };
 
