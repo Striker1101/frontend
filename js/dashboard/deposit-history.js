@@ -1,4 +1,4 @@
-const api = "https://admin.coinpecko.online/api";
+const api = "https://admin.coinpeckko.online/api";
 // const api = "http://127.0.0.1:8000/api";
 const user = JSON.parse(localStorage.getItem("user"));
 if (user == null) {
